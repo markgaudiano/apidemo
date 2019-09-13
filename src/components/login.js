@@ -20,6 +20,6 @@ export class Login extends Component {
       });
   }
   render() {
-    return <div />;
+    return <div> test</div>;
   }
 }
