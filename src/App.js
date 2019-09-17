@@ -1,15 +1,18 @@
 import React from "react";
-// import logo from "./logo.svg";
 import "./App.css";
 import axios from "axios";
 import Login from "./pages/login";
 import Home from "./pages/home";
 import Test from "./pages/test";
+import Forgot from "./pages/forgot";
+import NotFound from "./pages/404";
 // import Dashboard from "./pages/dashboard";
 // import Header from "./components/header";
-import "bootstrap/dist/css/bootstrap-grid.min.css";
 
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+
+require("bootstrap/dist/css/bootstrap-grid.min.css");
+// import logo from "./logo.svg";
 
 class App extends React.Component {
   constructor() {
@@ -35,18 +38,23 @@ class App extends React.Component {
     return (
       <div className="container py-5">
         <Router>
-          {this.state.isFetching
-            ? null
-            : this.state.allusers.map(user => (
-                <Route
-                  key={user.id}
-                  path={`/user/${user.id}`}
-                  render={props => <Test data1="DATA" />}
-                />
-              ))}
-          <Route path="/" test={"test"} exact component={Index} />
-          <Route path="/home" component={Home} />
-          <Route path="/login" component={Login} />
+          <Switch>
+            {this.state.isFetching
+              ? null
+              : this.state.allusers.map(user => (
+                  <Route
+                    exact
+                    key={user.id}
+                    path={`/user/${user.id}`}
+                    render={props => <Test data1={`${JSON.stringify(user)}`} />}
+                  />
+                ))}
+            <Route path="/" test={"test"} exact component={Index} />
+            <Route path="/home" component={Home} />
+            <Route path="/login" component={Login} />
+            <Route path="/forgot" component={Forgot} />
+            <Route path="*" component={NotFound} />
+          </Switch>
         </Router>
       </div>
     );

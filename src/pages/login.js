@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import "bootstrap/dist/css/bootstrap-grid.min.css";
 
 // import { Redirect } from "react-router-dom";
 
@@ -9,7 +10,8 @@ class Login extends React.Component {
 		this.state = {
 			username: "",
 			password: "",
-			success: null
+			success: false,
+			error: false
 		};
 		this.handleChange = this.handleChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
@@ -59,6 +61,7 @@ class Login extends React.Component {
 			.catch(error => {
 				// Handle error.
 				console.log("An error occurred:", error);
+				this.setState({ error: true });
 			});
 		e.preventDefault();
 	}
@@ -103,7 +106,9 @@ class Login extends React.Component {
 							</div>
 							<button type="submit">Submit</button>
 						</form>
-						{!this.state.success ? <p>Incorrect Data</p> : ""}
+						{this.state.error ? (
+							<p className="text-danger">wrong credentials</p>
+						) : null}
 					</div>
 				)}
 			</div>
