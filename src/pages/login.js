@@ -10,11 +10,13 @@ class Login extends React.Component {
 		this.state = {
 			username: "",
 			password: "",
+			info: [],
 			success: false,
 			error: false
 		};
 		this.handleChange = this.handleChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
+		this.clearCred = this.clearCred.bind(this);
 		// this.renderRedirect = this.renderRedirect.bind(this);
 	}
 	// componentDidMount() {
@@ -55,14 +57,22 @@ class Login extends React.Component {
 				console.log("Well done!");
 				console.log("User profile", response.data.user);
 				console.log("User token", response.data.jwt);
-
-				this.setState({ success: true });
+				this.setState({ success: true, info: response.data });
 			})
 			.catch(error => {
 				// Handle error.
 				console.log("An error occurred:", error);
 				this.setState({ error: true });
 			});
+		e.preventDefault();
+	}
+	clearCred(e) {
+		this.setState({
+			username: "",
+			password: "",
+			success: false,
+			error: false
+		});
 		e.preventDefault();
 	}
 	// renderRedirect(e) {
@@ -72,11 +82,14 @@ class Login extends React.Component {
 	// }
 
 	render() {
-		console.log(this.state);
+		console.log(this.state.info);
 		return (
 			<div>
 				{this.state.success ? (
-					<p>you're now login</p>
+					<div>
+						<p>you're now login</p>
+						<button onClick={this.clearCred}>Logout</button>
+					</div>
 				) : (
 					<div>
 						<form onSubmit={this.handleSubmit}>
